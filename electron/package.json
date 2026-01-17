@@ -1,0 +1,81 @@
+{
+  "name": "ai-meeting-desktop",
+  "version": "1.0.0",
+  "description": "AI Meeting Documentation Tool",
+  "author": "Teja Pendem",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "dependencies": {
+    "electron-is-dev": "^3.0.1",
+    "electron-log": "^5.4.3",
+    "electron-updater": "^6.3.9"
+  },
+  "devDependencies": {
+    "electron": "^29.0.0",
+    "electron-builder": "^24.9.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tejapendem/ai-meeting-documentation.git"
+  },
+  "build": {
+    "appId": "com.teja.aimeeting",
+    "productName": "AI Meeting Documentation",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "tejapendem",
+        "repo": "ai-meeting-documentation"
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        "dmg"
+      ],
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "extendInfo": {
+        "NSMicrophoneUsageDescription": "We need access to the microphone to record meeting audio.",
+        "NSScreenCaptureUsageDescription": "We need access to record your screen for meeting documentation."
+      }
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico",
+      "requestedExecutionLevel": "asInvoker"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "extraResources": [
+      {
+        "from": "../backend/dist/api",
+        "to": "api",
+        "filter": [
+          "!**/*.exe"
+        ]
+      },
+      {
+        "from": "../backend/dist/api.exe",
+        "to": "api.exe"
+      },
+      {
+        "from": "../backend/.env",
+        "to": ".env"
+      },
+      {
+        "from": "../backend/ffmpeg.exe",
+        "to": "ffmpeg.exe"
+      },
+      {
+        "from": "../backend/ffmpeg",
+        "to": "ffmpeg"
+      }
+    ]
+  }
+}

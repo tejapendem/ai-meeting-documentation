@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h2>Electron Screen Recorder (FINAL)</h2>
+
+    <select id="sources"></select>
+    <br /><br />
+
+    <button id="start">Start Recording</button>
+    <button id="stop">Stop</button>
+
+    <script>
+      let mediaRecorder;
+      let recordedChunks = [];
+      let stream;
+
+      const sourcesSelect = document.getElementById("sources");
+
+      async function loadSources() {
+        const sources = await window.electronAPI.getScreenSources();
+        sources.forEach(source => {
+          const option = document.createElement("option");
+          option.value = source.id;
+          option.text = source.name;
+          sourcesSelect.appendChild(option);
+        });
+      }
+
+      document.getElementById("start").onclick = async () => {
+        const sourceId = sourcesSelect.value;
+
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            mandatory: {
+              chromeMediaSource: "desktop",
+              chromeMediaSourceId: sourceId
+            }
+          },
+          audio: false
+        });
+
+        mediaRecorder = new MediaRecorder(stream, {
+          mimeType: "video/webm; codecs=vp9"
+        });
+
+        recordedChunks = [];
+
+        mediaRecorder.ondataavailable = e => {
+          if (e.data.size > 0) recordedChunks.push(e.data);
+        };
+
+        mediaRecorder.onstop = () => {
+          const blob = new Blob(recordedChunks, {
+            type: "video/webm"
+          });
+
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "meeting-recording.webm";
+          a.click();
+
+          stream.getTracks().forEach(t => t.stop());
+        };
+
+        mediaRecorder.start();
+        alert("Recording started");
+      };
+
+      document.getElementById("stop").onclick = () => {
+        mediaRecorder.stop();
+        alert("Recording stopped");
+      };
+
+      loadSources();
+    </script>
+  </body>
+</html>

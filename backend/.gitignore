@@ -1,0 +1,25 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Environment
+.env
+
+# Databases
+*.db
+*.sqlite3
+
+# Media / recordings
+*.wav
+*.mp3
+*.mp4
+recordings/
+uploads/
+
+# OS
+.DS_Store
+
+# Git
+.git/
