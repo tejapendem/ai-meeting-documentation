@@ -23,3 +23,9 @@ uploads/
 
 # Git
 .git/
+
+# Ignore build artifacts and binaries
+build/
+backend/ffmpeg
+backend/ffmpeg.exe
+backend/dist/

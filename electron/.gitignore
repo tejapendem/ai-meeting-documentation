@@ -4,3 +4,9 @@ dist/
 .DS_Store
 
 
+
+# Ignore build artifacts and binaries
+build/
+backend/ffmpeg
+backend/ffmpeg.exe
+backend/dist/
