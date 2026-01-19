@@ -49,14 +49,14 @@ jobs:
         pip install -r requirements.txt
         pip install pyinstaller
 
-    # 6. Build Python Backend (FINAL FIX: Force Install EVERYTHING)
+    # 6. Build Python Backend (FIXED: Manual Install)
     - name: Build Python Backend
       working-directory: ./backend
       run: |
-        # 🟢 FORCE INSTALL ALL DEPENDENCIES
-        # This ensures PyInstaller sees everything (FastAPI, Uvicorn, etc.)
-        pip install -r requirements.txt
-        
+        # 🟢 MANUALLY INSTALL COMPATIBLE WINDOWS VERSIONS
+        # We ignore requirements.txt because it contains invalid Mac versions
+        pip install fastapi "uvicorn[standard]" faster-whisper python-multipart python-dotenv sqlalchemy scipy numpy pyinstaller
+
         # 🟢 RUN BUILD
         pyinstaller --name api --onefile --distpath ./dist --clean `
           --hidden-import=uvicorn `
