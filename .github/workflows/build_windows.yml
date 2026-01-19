@@ -19,14 +19,13 @@ jobs:
       with:
         python-version: '3.10'
 
-    # 3. Setup Node.js
+    # 3. Setup Node.js (UPDATED TO v20)
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: 18
+        node-version: 20
 
-    # 4. Download FFmpeg for Windows (Crucial Step)
-    # This downloads the official Windows version of FFmpeg so your app works.
+    # 4. Download FFmpeg for Windows
     - name: Download FFmpeg
       shell: powershell
       run: |
@@ -50,7 +49,7 @@ jobs:
         pip install -r requirements.txt
         pip install pyinstaller
 
-    # 6. Build Python Backend (Creates api.exe)
+    # 6. Build Python Backend
     - name: Build Python Backend
       working-directory: ./backend
       run: |
@@ -63,14 +62,14 @@ jobs:
         npm install
         npm run build
 
-    # 8. Copy Frontend to Electron (Fixes White Screen)
+    # 8. Copy Frontend to Electron
     - name: Copy Frontend to Electron
       shell: powershell
       run: |
         New-Item -ItemType Directory -Force -Path electron\frontend
         Copy-Item -Recurse -Force frontend\dist electron\frontend\dist
 
-    # 9. Build Electron App (Creates the final .exe)
+    # 9. Build Electron App
     - name: Build Electron App
       working-directory: ./electron
       run: |
@@ -79,7 +78,7 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    # 10. Upload the Result (The EXE)
+    # 10. Upload the Result
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
