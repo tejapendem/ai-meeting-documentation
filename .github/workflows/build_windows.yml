@@ -49,10 +49,15 @@ jobs:
         pip install -r requirements.txt
         pip install pyinstaller
 
-    # 6. Build Python Backend (FIXED: metadata + collect-all)
+    # 6. Build Python Backend (FIXED: Force Install Uvicorn)
     - name: Build Python Backend
       working-directory: ./backend
       run: |
+        # 🟢 FORCE INSTALL to ensure it exists
+        pip install uvicorn
+        pip show uvicorn
+        
+        # 🟢 RUN BUILD
         pyinstaller --name api --onefile --distpath ./dist --clean `
           --hidden-import=uvicorn `
           --collect-all=uvicorn `
