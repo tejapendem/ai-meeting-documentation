@@ -49,13 +49,13 @@ jobs:
         pip install -r requirements.txt
         pip install pyinstaller
 
-    # 6. Build Python Backend (FIXED: Manual Install)
+    # 6. Build Python Backend (FIXED: Added ffmpeg-python)
     - name: Build Python Backend
       working-directory: ./backend
       run: |
-        # 🟢 MANUALLY INSTALL COMPATIBLE WINDOWS VERSIONS
-        # We ignore requirements.txt because it contains invalid Mac versions
-        pip install fastapi "uvicorn[standard]" faster-whisper python-multipart python-dotenv sqlalchemy scipy numpy pyinstaller
+        # 🟢 MANUALLY INSTALL ALL LIBRARIES
+        # Added 'ffmpeg-python' which was missing before
+        pip install fastapi "uvicorn[standard]" faster-whisper python-multipart python-dotenv sqlalchemy scipy numpy pyinstaller ffmpeg-python
 
         # 🟢 RUN BUILD
         pyinstaller --name api --onefile --distpath ./dist --clean `
@@ -65,6 +65,8 @@ jobs:
           --hidden-import=fastapi `
           --collect-all=fastapi `
           --copy-metadata=fastapi `
+          --hidden-import=ffmpeg `
+          --collect-all=ffmpeg `
           --hidden-import=av._core `
           --collect-all=av `
           --collect-all=faster_whisper `
