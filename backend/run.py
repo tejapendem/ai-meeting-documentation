@@ -1,4 +1,14 @@
 import uvicorn
+# 🟢 FORCE PYINSTALLER TO SEE THESE MODULES
+import uvicorn.config
+import uvicorn.main
+import uvicorn.loops
+import uvicorn.loops.auto
+import uvicorn.protocols
+import uvicorn.protocols.http
+import uvicorn.protocols.http.auto
+import uvicorn.lifespan
+import uvicorn.lifespan.on
 import os
 import sys
 import multiprocessing

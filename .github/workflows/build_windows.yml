@@ -49,18 +49,22 @@ jobs:
         pip install -r requirements.txt
         pip install pyinstaller
 
-    # 6. Build Python Backend (UPDATED TO FIX UVICORN CRASH)
+    # 6. Build Python Backend (FIXED: metadata + collect-all)
     - name: Build Python Backend
       working-directory: ./backend
       run: |
         pyinstaller --name api --onefile --distpath ./dist --clean `
-          --hidden-import=av._core `
           --hidden-import=uvicorn `
-          --collect-all av `
-          --collect-all faster_whisper `
-          --collect-all scipy `
-          --collect-all numpy `
-          --collect-all uvicorn `
+          --collect-all=uvicorn `
+          --copy-metadata=uvicorn `
+          --hidden-import=fastapi `
+          --collect-all=fastapi `
+          --copy-metadata=fastapi `
+          --hidden-import=av._core `
+          --collect-all=av `
+          --collect-all=faster_whisper `
+          --collect-all=scipy `
+          --collect-all=numpy `
           run.py
           
     # 7. Build Frontend (React)
